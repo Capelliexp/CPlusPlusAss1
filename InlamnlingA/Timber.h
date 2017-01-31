@@ -29,5 +29,4 @@ public:
 	std::string toString();
 
 };
-
 #endif // TIMBER_H

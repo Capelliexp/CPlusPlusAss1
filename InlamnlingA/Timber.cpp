@@ -63,5 +63,5 @@ std::string Timber::toString() {
 	std::string lengthString = std::to_string(length);
 	lengthString.erase(lengthString.find_last_not_of('0') + 2, std::string::npos);
 
-	return("* " + name + " - " + dimensions + " - Pris: " + priceString + " - Resterande längd: " + lengthString);
+	return("* " + name + " || " + dimensions + " || Price: " + priceString + " sek/m || Remaining length: " + lengthString + " m");
 }
