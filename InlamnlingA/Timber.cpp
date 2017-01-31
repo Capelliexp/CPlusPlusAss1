@@ -25,6 +25,7 @@ int Timber::operator=(Timber &other) {
 	this->dimensions = other.getDimensions();
 	this->length = other.getLength();
 	this->price = other.getPrice();
+
 	return 1;
 }
 

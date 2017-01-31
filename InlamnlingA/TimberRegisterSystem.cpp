@@ -15,7 +15,8 @@ int RestoreImage(TimberRegister* A);
 int main(){
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	TimberRegister A = *new TimberRegister();
+	//TimberRegister A = *new TimberRegister();
+	TimberRegister A;
 	int errorCheck;
 	int exit = 0;
 
@@ -77,7 +78,6 @@ int main(){
 		std::cout << std::endl << std::endl;
 	}
 
-	delete[] &A;
 	return 0;
 	
 	//----------------------------------------------
@@ -85,6 +85,7 @@ int main(){
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
 	TimberRegister A = *new TimberRegister();
+
 	A.AddTimber("A", "axa", 1, 10);
 	A.AddTimber("B", "bxb", 2, 20);
 	A.AddTimber("C", "cxc", 3, 30);
@@ -118,9 +119,10 @@ int main(){
 
 	getchar();
 
-	delete[] &A;
+	delete[0] &A;
 
-	return 0; */
+	return 0;
+	*/
 }
 
 int AddTimber(TimberRegister* A) {
