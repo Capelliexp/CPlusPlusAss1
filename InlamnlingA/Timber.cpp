@@ -57,6 +57,11 @@ void Timber::setPrice(float newPrice){
 }
 
 std::string Timber::toString() {
-	return("* " + name + " - " + dimensions + " - Pris: " + std::to_string(price))
-		+ " - Resterande längd: " + std::to_string(length);
+	std::string priceString = std::to_string(price);
+	priceString.erase(priceString.find_last_not_of('0') + 2, std::string::npos);
+
+	std::string lengthString = std::to_string(length);
+	lengthString.erase(lengthString.find_last_not_of('0') + 2, std::string::npos);
+
+	return("* " + name + " - " + dimensions + " - Pris: " + priceString + " - Resterande längd: " + lengthString);
 }

@@ -1,9 +1,9 @@
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include "TimberRegister.h"
 
 TimberRegister::TimberRegister(){
-
 
 }
 
@@ -11,7 +11,7 @@ TimberRegister::~TimberRegister(){
 	for (int i = 0; i < size; i++) {
 		delete timberArray[i];
 	}
-	//delete[] timberArray;
+	delete[] this->timberArray;
 }
 
 int TimberRegister::AddTimber(std::string name, std::string dimensions, float length, float price){
@@ -21,16 +21,31 @@ int TimberRegister::AddTimber(std::string name, std::string dimensions, float le
 		}
 	}
 
-	size++;
+	//skapa det nya Timber-objektet
 	Timber* newTimber = new Timber(name, dimensions, length, price);
 
+	//kopiera all data till temp
 	Timber** temp = new Timber*[size];
-	temp = timberArray;
-	temp[size - 1] = newTimber;
+	for (int i = 0; i < size; i++) {
+		temp[i] = timberArray[i];
+	}
 
-	//delete[] timberArray;
-	timberArray = temp;
+	delete[] this->timberArray;
 
+	//öka storlek på timberArray och kopiera tillbaka allting från temp till timberArray
+	this->timberArray = new Timber*[size + 1];
+
+	for (int i = 0; i < size; i++) {
+		timberArray[i] = temp[i];
+	}
+
+	//sätt in det nya Timber-objektet i timberArray
+	timberArray[size] = newTimber;
+
+	//radera den temporära Timber-arrayen
+	delete[] temp;
+
+	size++;
 	return 1;
 }
 

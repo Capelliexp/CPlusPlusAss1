@@ -11,7 +11,7 @@ private:
 	float price;
 	//Timber();
 public:
-	Timber(std::string name = "new timber", std::string dimensions = "0x0", float length = 0, float price = 0);
+	Timber(std::string name = "new timber", std::string dimensions = "0x0", float length = 0.0f, float price = 0.0f);
 	~Timber();
 	Timber(Timber &obj);
 	int operator=(Timber &other);
