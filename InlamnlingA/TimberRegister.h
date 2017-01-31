@@ -21,5 +21,7 @@ public:
 	void CreateImage(std::string &saveFile);			//7
 	void RestoreImage(std::string &saveFile);			//8
 	int CheckTimberName(std::string name);
+
+	int TestCopyAndAssignment();
 };
 #endif // TIMBERREGISTER_H

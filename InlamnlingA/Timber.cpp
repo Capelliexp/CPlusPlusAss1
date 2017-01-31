@@ -20,13 +20,11 @@ Timber::Timber(Timber &obj){
 	this->price = obj.getPrice();
 }
 
-int Timber::operator=(Timber &other) {
+void Timber::operator=(Timber &other) {
 	this->name = other.getName();
 	this->dimensions = other.getDimensions();
 	this->length = other.getLength();
 	this->price = other.getPrice();
-
-	return 1;
 }
 
 //Getters

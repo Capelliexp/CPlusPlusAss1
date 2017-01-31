@@ -13,7 +13,7 @@ public:
 	Timber(std::string name = "new timber", std::string dimensions = "0x0", float length = 0.0f, float price = 0.0f);
 	~Timber();
 	Timber(Timber &obj);
-	int operator=(Timber &other);
+	void operator=(Timber &other);
 
 	std::string getName();
 	std::string getDimensions();

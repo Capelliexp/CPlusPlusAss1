@@ -167,3 +167,18 @@ int TimberRegister::CheckTimberName(std::string name) {
 	}
 	return 1;
 }
+
+int TimberRegister::TestCopyAndAssignment() {
+	Timber *A = new Timber("test1N", "test1D", 1, 1);
+	Timber *B = new Timber("test2N", "test2D", 2, 2);
+	B = A;
+	
+	Timber *C = new Timber(*B);
+
+	if ((C->getName() == A->getName()) && (C->getDimensions() == A->getDimensions())
+		&&	(C->getLength() == A->getLength()) && (C->getPrice() == A->getPrice())) {
+		return 1;
+	}
+
+	return -1;
+}
