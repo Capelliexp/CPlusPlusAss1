@@ -3,20 +3,19 @@
 #include <crtdbg.h>
 #include "TimberRegister.h"
 
-int AddTimber(TimberRegister* A);
-int PresentTimber(TimberRegister* A);
-int PresentTimberLow(TimberRegister* A);
-int PresentCost(TimberRegister* A);
-int RemoveTimber(TimberRegister* A);
-int ChangeTimber(TimberRegister* A);
-int CreateImage(TimberRegister* A);
-int RestoreImage(TimberRegister* A);
+int AddTimber(TimberRegister* timber);
+int PresentTimber(TimberRegister* timber);
+int PresentTimberLow(TimberRegister* timber);
+int PresentCost(TimberRegister* timber);
+int RemoveTimber(TimberRegister* timber);
+int ChangeTimber(TimberRegister* timber);
+int CreateImage(TimberRegister* timber);
+int RestoreImage(TimberRegister* timber);
 
 int main(){
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	//TimberRegister A = *new TimberRegister();
-	TimberRegister A;
+	TimberRegister timber;
 	int errorCheck;
 	int exit = 0;
 
@@ -39,35 +38,35 @@ int main(){
 
 		switch (choice) {
 		case 1:
-			errorCheck = AddTimber(&A);
+			errorCheck = AddTimber(&timber);
 			break;
 		case 2:
-			errorCheck = PresentTimber(&A);
+			errorCheck = PresentTimber(&timber);
 			break;
 		case 3:
-			errorCheck = PresentTimberLow(&A);
+			errorCheck = PresentTimberLow(&timber);
 			break;
 		case 4:
-			errorCheck = PresentCost(&A);
+			errorCheck = PresentCost(&timber);
 			break;
 		case 5:
-			errorCheck = RemoveTimber(&A);
+			errorCheck = RemoveTimber(&timber);
 			break;
 		case 6:
-			errorCheck = ChangeTimber(&A);
+			errorCheck = ChangeTimber(&timber);
 			break;
 		case 7:
-			errorCheck = CreateImage(&A);
+			errorCheck = CreateImage(&timber);
 			break;
 		case 8:
-			errorCheck = RestoreImage(&A);
+			errorCheck = RestoreImage(&timber);
 			break;
 		case 9:
-
 			exit = 1;
 			break;
 		default:
 			std::cout << "Unhandled command" << std::endl;
+			errorCheck = -1;
 			break;
 		}
 
@@ -81,7 +80,7 @@ int main(){
 	return 0;
 }
 
-int AddTimber(TimberRegister* A) {
+int AddTimber(TimberRegister* timber) {
 	int errorCheck = -1;
 
 	std::string name;
@@ -93,9 +92,9 @@ int AddTimber(TimberRegister* A) {
 		std::cout << "Set timber name: ";
 		std::cin >> name;
 
-		errorCheck = A->CheckTimberName(name);
+		errorCheck = timber->CheckTimberName(name);
 		if (errorCheck == -1) {
-			std::cout << "Timber name occupied" << std::endl;
+			std::cout << "timber name occupied" << std::endl;
 		}
 	}
 
@@ -108,31 +107,31 @@ int AddTimber(TimberRegister* A) {
 	std::cout << "Set timber price (sek/m): ";
 	std::cin >> price;
 
-	errorCheck = A->AddTimber(name, dimensions, length, price);
+	errorCheck = timber->AddTimber(name, dimensions, length, price);
 	if (errorCheck == -1)
 		return -1;
 	else
-		std::cout << "Timber successfully added" << std::endl;
+		std::cout << "timber successfully added" << std::endl;
 
 	return 1;
 }
 
-int PresentTimber(TimberRegister* A) {
-	std::cout << A->ReturnAllTimber() << "-------------------------" << std::endl << std::endl;
+int PresentTimber(TimberRegister* timber) {
+	std::cout << timber->ReturnTimber() << "-------------------------" << std::endl << std::endl;
 	return 1;
 }
 
-int PresentTimberLow(TimberRegister* A) {
+int PresentTimberLow(TimberRegister* timber) {
 	float lowestLength;
 	std::cout << "Set lowest acceptable length: ";
 	std::cin >> lowestLength;
 
-	std::cout << A->ReturnLowValueTimber(lowestLength) << "-------------------------" << std::endl << std::endl;
+	std::cout << timber->ReturnTimberUnderLimit(lowestLength) << "-------------------------" << std::endl << std::endl;
 	return 1;
 }
 
-int PresentCost(TimberRegister* A) {
-	float totPrice = A->TotalCost();
+int PresentCost(TimberRegister* timber) {
+	float totPrice = timber->TotalCost();
 
 	std::string priceString = std::to_string(totPrice);
 	priceString.erase(priceString.find_last_not_of('0') + 2, std::string::npos);
@@ -143,24 +142,24 @@ int PresentCost(TimberRegister* A) {
 	return 1;
 }
 
-int RemoveTimber(TimberRegister* A) {
+int RemoveTimber(TimberRegister* timber) {
 	int errorCheck = 1;
 	std::string removeTimberName = "";
 
 	std::cout << "Name of timber to be removed: ";
 	std::cin >> removeTimberName;
 
-	errorCheck = A->RemoveTimber(removeTimberName);
+	errorCheck = timber->RemoveTimber(removeTimberName);
 	if (errorCheck == -1) {
-		std::cout << "Timber not found" << std::endl;
+		std::cout << "timber not found" << std::endl;
 		return -1;
 	}
 
-	std::cout << "Timber successfully removed" << std::endl;
+	std::cout << "timber successfully removed" << std::endl;
 	return 1;
 }
 
-int ChangeTimber(TimberRegister* A) {
+int ChangeTimber(TimberRegister* timber) {
 	int errorCheck = 1;
 	std::string nameToModify;
 	float newPrice;
@@ -169,7 +168,7 @@ int ChangeTimber(TimberRegister* A) {
 	std::cout << "Name of timber to be modified: ";
 	std::cin >> nameToModify;
 
-	errorCheck = A->CheckTimberName(nameToModify);
+	errorCheck = timber->CheckTimberName(nameToModify);
 	if (errorCheck != -1) {
 		std::cout << "No timber found with that name" << std::endl;
 		return -1;
@@ -181,7 +180,7 @@ int ChangeTimber(TimberRegister* A) {
 	std::cout << "New length: ";
 	std::cin >> newlength;
 
-	errorCheck = A->ModifyTimber(nameToModify, newPrice, newlength);
+	errorCheck = timber->ModifyTimber(nameToModify, newPrice, newlength);
 	if (errorCheck == -1) {
 		std::cout << "Unable to modify " + nameToModify << std::endl;
 		return -1;
@@ -190,24 +189,24 @@ int ChangeTimber(TimberRegister* A) {
 	return 1;
 }
 
-int CreateImage(TimberRegister* A) {
+int CreateImage(TimberRegister* timber) {
 	std::string fileName;
 
 	std::cout << "Image name: ";
 	std::cin >> fileName;
 
-	A->CreateImage(fileName);
+	timber->CreateImage(fileName);
 
 	return 1;
 }
 
-int RestoreImage(TimberRegister* A) {
+int RestoreImage(TimberRegister* timber) {
 	std::string fileName;
 
 	std::cout << "Image name to restore from: ";
 	std::cin >> fileName;
 
-	A->RestoreImage(fileName);
+	timber->RestoreImage(fileName);
 
 	return 1;
 }

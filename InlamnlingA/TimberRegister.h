@@ -9,19 +9,18 @@ private:
 	int size;
 	Timber** timberArray = new Timber*[0];
 public:
-	TimberRegister();
-	~TimberRegister();
-
-	int AddTimber(std::string name, std::string dimensions, float length, float price);	//1
-	std::string ReturnAllTimber();						//2
-	std::string ReturnLowValueTimber(float lowLimit);	//3
-	float TotalCost();									//4
-	int RemoveTimber(std::string timberName);			//5
-	int ModifyTimber(std::string timberName, float newPrice, float newLength);	//6
-	void CreateImage(std::string &saveFile);			//7
-	void RestoreImage(std::string &saveFile);			//8
+	int AddTimber(std::string name, std::string dimensions, float length, float price);
+	std::string ReturnTimber();
+	std::string ReturnTimberUnderLimit(float lowLimit);
+	float TotalCost();
+	int RemoveTimber(std::string timberName);
+	int ModifyTimber(std::string timberName, float newPrice, float newLength);
+	void CreateImage(std::string &saveFile);
+	void RestoreImage(std::string &saveFile);
 	int CheckTimberName(std::string name);
-
 	int TestCopyAndAssignment();
+
+	~TimberRegister();
+	TimberRegister();
 };
 #endif // TIMBERREGISTER_H

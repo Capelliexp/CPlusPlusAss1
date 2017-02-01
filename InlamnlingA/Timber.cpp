@@ -5,7 +5,7 @@
 Timber::Timber(std::string name, std::string dimensions, float length, float price){
 	this->name = name;
 	this->dimensions = dimensions;
-	this->length = length;
+	this->amount = length;
 	this->price = price;
 }
 
@@ -13,53 +13,53 @@ Timber::~Timber(){
 	//empty
 }
 
-Timber::Timber(Timber &obj){
-	this->name = obj.getName();
-	this->dimensions = obj.getDimensions();
-	this->length = obj.getLength();
-	this->price = obj.getPrice();
+Timber::Timber(Timber &newTimberObject){
+	this->name = newTimberObject.GetName();
+	this->dimensions = newTimberObject.GetDimensions();
+	this->amount = newTimberObject.GetAmount();
+	this->price = newTimberObject.GetPrice();
 }
 
-void Timber::operator=(Timber &other) {
-	this->name = other.getName();
-	this->dimensions = other.getDimensions();
-	this->length = other.getLength();
-	this->price = other.getPrice();
+void Timber::operator=(Timber &newTimberObject) {
+	this->name = newTimberObject.GetName();
+	this->dimensions = newTimberObject.GetDimensions();
+	this->amount = newTimberObject.GetAmount();
+	this->price = newTimberObject.GetPrice();
 }
 
-//Getters
-std::string Timber::getName(){
+std::string Timber::GetName(){
 	return name;
 }
-std::string Timber::getDimensions(){
-	return dimensions;
-}
-float Timber::getLength(){
-	return length;
-}
-float Timber::getPrice(){
-	return price;
-}
-
-//Setters
-void Timber::setName(std::string newName){
+void Timber::SetName(std::string newName) {
 	this->name = newName;
 }
-void Timber::setDimensions(std::string newDimensions){
+
+std::string Timber::GetDimensions(){
+	return dimensions;
+}
+void Timber::SetDimensions(std::string newDimensions) {
 	this->dimensions = newDimensions;
 }
-void Timber::setLength(float newLength){
-	this->length = newLength;
+
+float Timber::GetAmount(){
+	return amount;
 }
-void Timber::setPrice(float newPrice){
+void Timber::SetAmount(float newLength) {
+	this->amount = newLength;
+}
+
+float Timber::GetPrice(){
+	return price;
+}
+void Timber::SetPrice(float newPrice) {
 	this->price = newPrice;
 }
 
-std::string Timber::toString() {
+std::string Timber::ToString() {
 	std::string priceString = std::to_string(price);
 	priceString.erase(priceString.find_last_not_of('0') + 2, std::string::npos);
 
-	std::string lengthString = std::to_string(length);
+	std::string lengthString = std::to_string(amount);
 	lengthString.erase(lengthString.find_last_not_of('0') + 2, std::string::npos);
 
 	return("* " + name + " || " + dimensions + " || Price: " + priceString + " sek/m || Remaining length: " + lengthString + " m");
