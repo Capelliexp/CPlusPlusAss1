@@ -5,14 +5,10 @@
 
 class Timber {
 private:
-	std::string name;
 	std::string dimensions;
 	float amount;
 	float price;
 public:
-	std::string GetName();
-	void SetName(std::string newName);
-
 	std::string GetDimensions();
 	void SetDimensions(std::string newDimensions);
 
@@ -25,7 +21,7 @@ public:
 	std::string ToString();
 
 	~Timber();
-	Timber(std::string name = "New Timber", std::string dimensions = "0x0", float length = 0.0f, float price = 0.0f);
+	Timber(std::string dimensions = "0x0", float length = 0.0f, float price = 0.0f);
 	Timber(Timber &newTimberObject);
 	void operator=(Timber &newTimberObject);
 

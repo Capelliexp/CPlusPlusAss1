@@ -83,23 +83,19 @@ int main(){
 int AddTimber(TimberRegister* timber) {
 	int errorCheck = -1;
 
-	std::string name;
 	std::string dimensions;
 	float length;
 	float price;
 
 	while (errorCheck == -1) {
-		std::cout << "Set timber name: ";
-		std::cin >> name;
+		std::cout << "Set timber dimensions (AxB): ";
+		std::cin >> dimensions;
 
-		errorCheck = timber->CheckTimberName(name);
+		errorCheck = timber->CheckTimberDimensions(dimensions);
 		if (errorCheck == -1) {
-			std::cout << "timber name occupied" << std::endl;
+			std::cout << "timber occupied" << std::endl;
 		}
 	}
-
-	std::cout << "Set timber dimensions (AxB): ";
-	std::cin >> dimensions;
 
 	std::cout << "Set timber length (m): ";
 	std::cin >> length;
@@ -107,7 +103,7 @@ int AddTimber(TimberRegister* timber) {
 	std::cout << "Set timber price (sek/m): ";
 	std::cin >> price;
 
-	errorCheck = timber->AddTimber(name, dimensions, length, price);
+	errorCheck = timber->AddTimber(dimensions, length, price);
 	if (errorCheck == -1)
 		return -1;
 	else
@@ -146,7 +142,7 @@ int RemoveTimber(TimberRegister* timber) {
 	int errorCheck = 1;
 	std::string removeTimberName = "";
 
-	std::cout << "Name of timber to be removed: ";
+	std::cout << "Dimensions of timber to be removed: ";
 	std::cin >> removeTimberName;
 
 	errorCheck = timber->RemoveTimber(removeTimberName);
@@ -161,16 +157,16 @@ int RemoveTimber(TimberRegister* timber) {
 
 int ChangeTimber(TimberRegister* timber) {
 	int errorCheck = 1;
-	std::string nameToModify;
+	std::string dimToModify;
 	float newPrice;
 	float newlength;
 
-	std::cout << "Name of timber to be modified: ";
-	std::cin >> nameToModify;
+	std::cout << "Dimensions of timber to be modified (AxB): ";
+	std::cin >> dimToModify;
 
-	errorCheck = timber->CheckTimberName(nameToModify);
+	errorCheck = timber->CheckTimberDimensions(dimToModify);
 	if (errorCheck != -1) {
-		std::cout << "No timber found with that name" << std::endl;
+		std::cout << "No timber found with those values" << std::endl;
 		return -1;
 	}
 
@@ -180,9 +176,9 @@ int ChangeTimber(TimberRegister* timber) {
 	std::cout << "New length: ";
 	std::cin >> newlength;
 
-	errorCheck = timber->ModifyTimber(nameToModify, newPrice, newlength);
+	errorCheck = timber->ModifyTimber(dimToModify, newPrice, newlength);
 	if (errorCheck == -1) {
-		std::cout << "Unable to modify " + nameToModify << std::endl;
+		std::cout << "Unable to modify " + dimToModify << std::endl;
 		return -1;
 	}
 

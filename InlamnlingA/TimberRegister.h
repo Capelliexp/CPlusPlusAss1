@@ -9,7 +9,7 @@ private:
 	int size;
 	Timber** timberArray = new Timber*[0];
 public:
-	int AddTimber(std::string name, std::string dimensions, float length, float price);
+	int AddTimber(std::string dimensions, float length, float price);
 	std::string ReturnTimber();
 	std::string ReturnTimberUnderLimit(float lowLimit);
 	float TotalCost();
@@ -17,7 +17,7 @@ public:
 	int ModifyTimber(std::string timberName, float newPrice, float newLength);
 	void CreateImage(std::string &saveFile);
 	void RestoreImage(std::string &saveFile);
-	int CheckTimberName(std::string name);
+	int CheckTimberDimensions(std::string name);
 	int TestCopyAndAssignment();
 
 	~TimberRegister();

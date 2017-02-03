@@ -6,30 +6,30 @@
 int main() {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	TimberRegister A;	//1
+	TimberRegister A;					//1
 
-	A.AddTimber("A", "axa", 1, 11);	//2
-	A.AddTimber("B", "bxb", 2, 22);
+	A.AddTimber("axa", 1, 11);			//2
+	A.AddTimber("bxb", 2, 22);
 
-	A.AddTimber("C", "cxc", 3, 33);	//3
+	A.AddTimber("cxc", 3, 33);			//3
 
-	A.RemoveTimber("D");	//4
+	A.RemoveTimber("dxd");				//4
 	std::cout << "output:" << std::endl;
-	std::cout << A.ReturnAllTimber() << std::endl;
+	std::cout << A.ReturnTimber() << std::endl;
 
-	A.RemoveTimber("A");	//5
+	A.RemoveTimber("axa");				//5
 	std::cout << "output:" << std::endl;
-	std::cout << A.ReturnAllTimber() << std::endl;
+	std::cout << A.ReturnTimber() << std::endl;
 
-	A.RemoveTimber("B");	//6
-	A.RemoveTimber("C");
+	A.RemoveTimber("bxb");				//6
+	A.RemoveTimber("cxc");
 	std::cout << "output:" << std::endl;
-	std::cout << A.ReturnAllTimber() << std::endl;
+	std::cout << A.ReturnTimber() << std::endl;
 
-	A.AddTimber("A", "axa", 1, 11);	//7
-	A.AddTimber("E", "exe", 5, 55);
+	A.AddTimber("axa", 1, 11);			//7
+	A.AddTimber("exe", 5, 55);
 	std::cout << "output:" << std::endl;
-	std::cout << A.ReturnAllTimber() << std::endl;
+	std::cout << A.ReturnTimber() << std::endl;
 
 	if (A.TestCopyAndAssignment() == 1)	//8
 		std::cout << "TestCopyAndAssignment() succeeded" << std::endl;

@@ -16,9 +16,9 @@ TimberRegister::~TimberRegister(){
 	delete[] this->timberArray;
 }
 
-int TimberRegister::AddTimber(std::string name, std::string dimensions, float amount, float price){
+int TimberRegister::AddTimber(std::string dimensions, float amount, float price){
 	for (int i = 0; i < size; i++) {
-		if (timberArray[i]->GetName() == name) {
+		if (timberArray[i]->GetDimensions() == dimensions) {
 			return -1;
 		}
 	}
@@ -40,7 +40,7 @@ int TimberRegister::AddTimber(std::string name, std::string dimensions, float am
 	}
 
 	//skapa det nya Timber-objektet
-	Timber* newTimber = new Timber(name, dimensions, amount, price);
+	Timber* newTimber = new Timber(dimensions, amount, price);
 
 	//sätt in det nya Timber-objektet i timberArray
 	timberArray[size] = newTimber;
@@ -79,10 +79,10 @@ float TimberRegister::TotalCost(){
 	return totalCost;
 }
 
-int TimberRegister::RemoveTimber(std::string timberName){
+int TimberRegister::RemoveTimber(std::string timberDimensions){
 	int iterator = -1;
 	for (int i = 0; i < size; i++) {
-		if (timberArray[i]->GetName() == timberName) {
+		if (timberArray[i]->GetDimensions() == timberDimensions) {
 			iterator = i;
 			i = size;
 		}
@@ -125,7 +125,7 @@ int TimberRegister::RemoveTimber(std::string timberName){
 
 int TimberRegister::ModifyTimber(std::string timberName, float newPrice, float newLength){
 	for (int i = 0; i < size; i++) {
-		if (timberArray[i]->GetName() == timberName) {
+		if (timberArray[i]->GetDimensions() == timberName) {
 			timberArray[i]->SetPrice(newPrice);
 			timberArray[i]->SetAmount(newLength);
 			return 1;
@@ -138,13 +138,14 @@ void TimberRegister::CreateImage(std::string &file) {
 	//http://www.cplusplus.com/reference/fstream/ofstream/
 	//http://www.cplusplus.com/reference/string/to_string/
 
-	std::ofstream Image(file);
-	if (Image.is_open()) {
+	std::ofstream Image;
+	Image.open(file);
+
+	if (Image.is_open()){
 		Image << std::to_string(size) << "\n";
 		for (int i = 0; i < size; i++) {
-			Image << timberArray[i]->GetName() << "\n";
-			Image << timberArray[i]->GetDimensions() << "\n";
-			Image << timberArray[i]->GetAmount() << "\n";
+			Image << timberArray[i]->GetDimensions() << "|";
+			Image << timberArray[i]->GetAmount() << "|";
 			Image << timberArray[i]->GetPrice() << "\n";
 		}
 		Image.close();
@@ -155,39 +156,48 @@ void TimberRegister::RestoreImage(std::string &file) {
 	//http://www.cplusplus.com/reference/string/string/getline/
 	//http://www.cplusplus.com/reference/fstream/ifstream/
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++){
 		delete timberArray[i];
 	}
 	delete[] this->timberArray;
-
-	std::string number;
-	std::string string1;
-	std::string string2;
-	std::string string3;
-	std::string string4;
 	size = 0;
-	int counter = 0;
 
-	std::ifstream Image(file);
-	if (Image.is_open())
-	{
+	int nrOfElements = 0;
+	std::string number;
+	std::string row;
+	std::string savedDimension;
+	std::string savedAmount;
+	std::string savedPrice;
+	size_t pos;
+
+	std::ifstream Image;
+	Image.open(file);
+
+	if (Image.is_open()){
 		std::getline(Image, number);
-		counter = std::stoi(number);
+		nrOfElements = std::stoi(number);
 		this->timberArray = new Timber*[size];
-		for (int i = 0; i < counter; i++) {
-			std::getline(Image, string1);
-			std::getline(Image, string2);
-			std::getline(Image, string3);
-			std::getline(Image, string4);
-			AddTimber(string1, string2, strtof((string3).c_str(), 0), strtof((string4).c_str(), 0));
+		for (int i = 0; i < nrOfElements; i++) {
+			std::getline(Image, row);
+
+			pos = row.find("|");
+			savedDimension = row.substr(0, pos);
+			row = row.substr(pos + 1);
+
+			pos = row.find("|");
+			savedAmount = row.substr(0, pos);
+
+			savedPrice = row.substr(pos + 1);
+
+			AddTimber(savedDimension, strtof((savedAmount).c_str(), 0), strtof((savedPrice).c_str(), 0));
 		}
 		Image.close();
 	}
 }
 
-int TimberRegister::CheckTimberName(std::string name) {
+int TimberRegister::CheckTimberDimensions(std::string dim) {
 	for (int i = 0; i < this->size; i++) {
-		if (timberArray[i]->GetName() == name) {
+		if (timberArray[i]->GetDimensions() == dim) {
 			return -1;
 		}
 	}
@@ -195,14 +205,25 @@ int TimberRegister::CheckTimberName(std::string name) {
 }
 
 int TimberRegister::TestCopyAndAssignment() {
-	Timber *A = new Timber("test1N", "test1D", 1, 1);
-	Timber *B = new Timber("test2N", "test2D", 2, 2);
-	B = A;
+	bool testAssignment = false;
+	bool testCopy = false;
 	
-	Timber *C = new Timber(*B);
+	Timber *A = new Timber("1x1", 1, 1);
+	Timber *B = new Timber("2x2", 2, 2);
 
-	if ((C->GetName() == A->GetName()) && (C->GetDimensions() == A->GetDimensions())
-		&&	(C->GetAmount() == A->GetAmount()) && (C->GetPrice() == A->GetPrice())){
+	B = A;
+	if ((B->GetDimensions() == A->GetDimensions()) && (B->GetAmount() == A->GetAmount())
+		&& (B->GetPrice() == A->GetPrice())) {
+		testAssignment = true;
+	}
+	
+	Timber *C = new Timber(*A);
+	if ((C->GetDimensions() == A->GetDimensions()) &&	(C->GetAmount() == A->GetAmount())
+		&& (C->GetPrice() == A->GetPrice())){
+		testCopy = true;
+	}
+
+	if (testAssignment == true && testCopy == true) {
 		return 1;
 	}
 
