@@ -6,7 +6,7 @@
 int main() {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	TimberRegister A;					//1
+	TimberRegister A(2);				//1
 
 	A.AddTimber("axa", 1, 11);			//2
 	A.AddTimber("bxb", 2, 22);

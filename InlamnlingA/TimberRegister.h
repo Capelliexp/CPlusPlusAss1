@@ -7,7 +7,8 @@
 class TimberRegister {
 private:
 	int size;
-	Timber** timberArray = new Timber*[0];
+	int freeSpace;
+	Timber** timberArray;
 public:
 	int AddTimber(std::string dimensions, float length, float price);
 	std::string ReturnTimber();
@@ -21,6 +22,6 @@ public:
 	int TestCopyAndAssignment();
 
 	~TimberRegister();
-	TimberRegister();
+	TimberRegister(int startCapacity);
 };
 #endif // TIMBERREGISTER_H

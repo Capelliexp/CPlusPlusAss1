@@ -5,12 +5,14 @@
 #include <fstream>
 #include "TimberRegister.h"
 
-TimberRegister::TimberRegister(){
+TimberRegister::TimberRegister(int startCapacity){
 	this->size = 0;
+	this->freeSpace = startCapacity;
+	this->timberArray = new Timber*[startCapacity];
 }
 
 TimberRegister::~TimberRegister(){
-	for(int i = 0; i < size; i++){
+	for(int i = 0; i < (size + freeSpace); i++){
 		delete timberArray[i];
 	}
 	delete[] this->timberArray;
@@ -23,32 +25,44 @@ int TimberRegister::AddTimber(std::string dimensions, float amount, float price)
 		}
 	}
 
-	//kopiera all data till temp
-	Timber** temp = new Timber*[size];
-	for (int i = 0; i < size; i++) {
-		temp[i] = timberArray[i];
+	if (freeSpace > 0) {
+		//skapa det nya Timber-objektet
+		Timber* newTimber = new Timber(dimensions, amount, price);
+
+		//sätt in det nya Timber-objektet i timberArray
+		timberArray[size] = newTimber;
+
+		this->size = this->size + 1;
+		freeSpace--;
 	}
+	else {
+		//kopiera all data till temp
+		Timber** temp = new Timber*[size];
+		for (int i = 0; i < size; i++) {
+			temp[i] = timberArray[i];
+		}
 
-	//radera gamla timberArray
-	delete[] this->timberArray;
+		//radera gamla timberArray
+		delete[] this->timberArray;
 
-	//öka storlek på timberArray och kopiera tillbaka allting från temp till timberArray
-	this->timberArray = new Timber*[size + 1];
+		//öka storlek på timberArray och kopiera tillbaka allting från temp till timberArray
+		this->timberArray = new Timber*[size + 1];
 
-	for (int i = 0; i < size; i++) {
-		timberArray[i] = temp[i];
+		for (int i = 0; i < size; i++) {
+			timberArray[i] = temp[i];
+		}
+
+		//skapa det nya Timber-objektet
+		Timber* newTimber = new Timber(dimensions, amount, price);
+
+		//sätt in det nya Timber-objektet i timberArray
+		timberArray[size] = newTimber;
+
+		this->size = this->size + 1;
+
+		//radera den temporära Timber-arrayen
+		delete[] temp;
 	}
-
-	//skapa det nya Timber-objektet
-	Timber* newTimber = new Timber(dimensions, amount, price);
-
-	//sätt in det nya Timber-objektet i timberArray
-	timberArray[size] = newTimber;
-
-	this->size = this->size + 1;
-
-	//radera den temporära Timber-arrayen
-	delete[] temp;
 
 	return 1;
 }
