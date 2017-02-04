@@ -12,7 +12,7 @@ TimberRegister::TimberRegister(int startCapacity){
 }
 
 TimberRegister::~TimberRegister(){
-	for(int i = 0; i < (size + freeSpace); i++){
+	for(int i = 0; i < (size); i++){
 		delete timberArray[i];
 	}
 	delete[] this->timberArray;
@@ -95,18 +95,21 @@ float TimberRegister::TotalCost(){
 
 int TimberRegister::RemoveTimber(std::string timberDimensions){
 	int iterator = -1;
+
 	for (int i = 0; i < size; i++) {
 		if (timberArray[i]->GetDimensions() == timberDimensions) {
 			iterator = i;
 			i = size;
 		}
 	}
+
 	if (iterator == -1) {
 		return -1;
 	}
 
 	//skapa en temporär timberArray
-	Timber** temp = new Timber*[size - 1];
+	this->freeSpace = 0;
+	Timber** temp = new Timber*[(size - 1) + freeSpace];
 
 	//Fyll temp med alla värden förutom den på plats "iterator"
 	for (int i = 0; i < iterator; i++) {
@@ -124,7 +127,7 @@ int TimberRegister::RemoveTimber(std::string timberDimensions){
 	this->timberArray = new Timber*[size - 1];
 
 	//fyll timberArray med rätt värden
-	for (int i = 0; i < (size - 1); i++) {
+	for (int i = 0; i < ((size - 1) + freeSpace); i++) {
 		timberArray[i] = temp[i];
 	}
 

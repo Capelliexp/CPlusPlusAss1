@@ -15,7 +15,7 @@ int RestoreImage(TimberRegister* timber);
 int main(){
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
-	TimberRegister timber(0);
+	TimberRegister timber(3);
 	int errorCheck;
 	int exit = 0;
 
